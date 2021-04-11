@@ -23,7 +23,7 @@ Alternative:
 - Manually download files under https://www.dropbox.com/sh/psfudnzktyd0860/AABtx7ESvEphO60dcV_xbQ4qa?dl=0 and unzip downloaded files under the folder `src/`.
 
 ## Examples
-We use examples to show the utility of this toolbox. Condition with respect to each example are described below and also in `examples.m`. 
+We use examples to show the utility of this toolbox. Condition with respect to each example is described below and also in `examples.m`. 
 
 ### Example 1
 'I have an imaging map (a nifti file) and a gene set. I want to test if the imaging pattern correlates to the expression pattern.'
