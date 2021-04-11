@@ -1,2 +1,7 @@
 src/__MACOSX/
 src/.DS_Store
+src/atlas/
+src/examples/
+src/gene_expression.mat
+src/gene_expression_spin/
+

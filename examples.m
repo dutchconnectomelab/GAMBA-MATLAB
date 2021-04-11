@@ -1,13 +1,14 @@
 clc, clear, close all;
 filepath = fileparts(mfilename('fullpath'));
+addpath(genpath(filepath));
 
 % Select an example to run
 exampleID = 1; % 1, 2, 3, 4, 5
 
 
 %% Example 1
-% I have an imaging map (.nii file) and a gene set. I want to test if the 
-% imaging pattern correlates to the expression pattern.
+% I have an imaging map (a nifti file) and a gene set. I want to test if 
+% the imaging pattern correlates to the expression pattern.'
 
 if exampleID == 1
     disp(strcat('Example 1. Examining association between Alzheimer', ...
