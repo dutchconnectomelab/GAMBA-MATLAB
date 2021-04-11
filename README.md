@@ -11,14 +11,14 @@ For details, please see:
 ### Download matlab toolbox
 - Download the github repository through the command line `git clone https://github.com/yongbin-wei/GAMBA_MATLAB.git`.
 
-OR
+Alternative:
 
 - Click 'Code -- Download ZIP' and unzip the downloaded file.
 
 ### Extract required data
 - Run `install.m` in Matlab to retrieve all required data.
 
-OR
+Alternative:
 
 - Manually download files under https://www.dropbox.com/sh/psfudnzktyd0860/AABtx7ESvEphO60dcV_xbQ4qa?dl=0 and unzip downloaded files under the folder `src/`.
 
