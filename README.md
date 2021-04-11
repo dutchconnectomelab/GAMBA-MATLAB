@@ -23,16 +23,22 @@ Alternative:
 - Manually download files under https://www.dropbox.com/sh/psfudnzktyd0860/AABtx7ESvEphO60dcV_xbQ4qa?dl=0 and unzip downloaded files under the folder `src/`.
 
 ## Examples
-We use three simple examples that show analyses commonly performed in literature to illustrate the usage of different statistical null models. Examples include human-supragranular-enriched (HSE) genes, APOE gene, and risk genes of autism spectrum disorder (ASD). To get started, please see `/examples/README.txt` for details.
+We use examples to show the utility of this toolbox. Condition with respect to each example are described below and also in `examples.m`. 
 
-- Example of associations between the spatial pattern of HSE gene expression and the connectome metrics:
+### Example 1
+'I have an imaging map (a nifti file) and a gene set. I want to test if the imaging pattern correlates to the expression pattern.'
 
-`/examples/scripts_example1_HSE.m`
+This example uses VBM meta-analysis result -- a brain map showing the vulnerability of brain volume -- for Alzheimer's disease (AD), and examines whether the VBM pattern is associated with the pattern of brain gene expression of three AD genes ('APOE', 'APP', 'PSEN2') through GAMBA null-models.
 
-- Example of associations between the spatial pattern of APOE gene expression and the pattern of brain atrophy in diseases:
+NOTE: The script requires FSL (https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/) installed. For users do not use FSL, please adjust the script to ** coregister your brain map to /src/atlas/brain.nii.gz ** and then run the rest of the codes. 
 
-`/examples/scripts_example2_apoe.m`
+### Example 2
 
-- Example of associations between the spatial expression pattern of ASD risk genes and the pattern of functional changes in diseases:
+### Example 3
 
-`/examples/scripts_example3_ASD.m`
+### Example 4
+
+### Example 5
+
+
+
