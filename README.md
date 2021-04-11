@@ -26,7 +26,7 @@ Alternative:
 We use examples to show the utility of this toolbox. Condition with respect to each example is described below and also in `examples.m`. 
 
 ### Example 1
-'I have an imaging map (a nifti file) and a gene set. I want to test if the imaging pattern correlates to the expression pattern.'
+**'I have an imaging map (a nifti file) and a gene set. I want to test if the imaging pattern correlates to the expression pattern.'**
 
 This example uses VBM meta-analysis result -- a brain map showing the vulnerability of brain volume -- for Alzheimer's disease (AD), and examines whether the VBM pattern is associated with the pattern of brain gene expression of three AD genes ('APOE', 'APP', 'PSEN2') through GAMBA null-models.
 
