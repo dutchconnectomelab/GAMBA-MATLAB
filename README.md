@@ -7,7 +7,7 @@ For details, please see:
 
 > Wei, Y. et al. (2019), Genetic mapping and evolutionary analysis of human-expanded cognitive networks. Nat Commun. https://doi.org/10.1038/s41467-019-12764-8
 
-## Install
+## Installation
 ### Download matlab toolbox
 - Download the github repository through the command line `git clone https://github.com/yongbin-wei/GAMBA_MATLAB.git`.
 
