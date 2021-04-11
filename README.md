@@ -25,19 +25,19 @@ Alternative:
 ## Examples
 We use examples to show the utility of this toolbox. Condition with respect to each example is described below and also in `examples.m`. 
 
-### 1. "I have an imaging map (a nifti file) and a gene set. I want to test if the imaging pattern correlates to the expression pattern."
+#### 1. "I have an imaging map (a nifti file) and a gene set. I want to test if the imaging pattern correlates to the expression pattern."
 
 This example uses VBM meta-analysis result -- a brain map showing the vulnerability of brain volume -- for Alzheimer's disease (AD), and examines whether the VBM pattern is associated with the pattern of brain gene expression of three AD risk genes ('APOE', 'APP', 'PSEN2') through GAMBA null-models. Preprocessed gene expression data from the Allen Human Brain Atlas (https://human.brain-map.org) will be used.
 
 NOTE: The example requires FSL (https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/) installed. For users do not use FSL, please adjust the script to *coregister your brain map to /src/atlas/brain.nii.gz* and then run the rest of the codes. 
 
 
-### 2. "I have an imaging data matrix (region by feature), a gene expression data matrix (region by gene), and a gene set. I want to test if the imaging pattern correlates to the expression pattern."
+#### 2. "I have an imaging data matrix (region by feature), a gene expression data matrix (region by gene), and a gene set. I want to test if the imaging pattern correlates to the expression pattern."
 
-### 3. "I have a gene-set. I want to test in which brain regions the gene-set is over-expressed."
+#### 3. "I have a gene-set. I want to test in which brain regions the gene-set is over-expressed."
 
-### 4. "I have a gene expression data matrix and a gene-set. I want to test in which brain regions the gene-set is over-expressed."
+#### 4. "I have a gene expression data matrix and a gene-set. I want to test in which brain regions the gene-set is over-expressed."
 
-### 5. "I have an imaging map (.nii file) and I want to look for the most correlated genes"
+#### 5. "I have an imaging map (.nii file) and I want to look for the most correlated genes"
 
 
