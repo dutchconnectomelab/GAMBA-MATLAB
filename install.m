@@ -25,7 +25,7 @@ fprintf('%s\n', 'finished');
 % Download examples
 fprintf('%s', '## Download examples ...');
 outfilename = websave(fullfile(filepath, 'src', 'examples.zip'), ...
-    'https://www.dropbox.com/s/61f1ilvt1e8p7ch/examples.zip?dl=1');
+    'https://www.dropbox.com/s/3iteb4btcbvi39p/examples.zip?dl=1');
 unzip(outfilename, fullfile(filepath, 'src'));
 delete(outfilename);
 fprintf('%s\n', 'finished');
