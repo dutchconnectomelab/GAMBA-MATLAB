@@ -4,7 +4,7 @@ function res = group_regions(input_file, atlas)
 %
 % INPUT
 %   input_file -- input brain map (.nii file) that has been co-registered 
-%       to the same space as './data/brain.nii.gz' (i.e., MNI152 brain)
+%       to the same space as './src/atlas/brain.nii.gz' (i.e., MNI152 brain)
 %
 %   OPTIONAL:
 %   atlas -- atlas name. Default: 'DK114'. Other options: 'aparc','DK250'
@@ -31,14 +31,14 @@ filepath = fileparts(mfilename('fullpath'));
 
 switch atlas
     case 'DK114'
-        lookuptable = fullfile(filepath, 'src', 'atlas', 'lausanne120.txt');
-        ref_file = fullfile(filepath, 'src', 'atlas', 'lausanne120+aseg.nii.gz');
+        lookuptable = fullfile(filepath, 'atlas', 'lausanne120.txt');
+        ref_file = fullfile(filepath, 'atlas', 'lausanne120+aseg.nii.gz');
     case 'aparc'
-        lookuptable = fullfile(filepath, 'src', 'atlas', 'aparc.txt');
-        ref_file = fullfile(filepath, 'src', 'atlas', 'aparc+aseg.nii.gz');
+        lookuptable = fullfile(filepath, 'atlas', 'aparc.txt');
+        ref_file = fullfile(filepath, 'atlas', 'aparc+aseg.nii.gz');
     case 'DK219'
-        lookuptable = fullfile(filepath, 'src', 'atlas', 'lausanne250.txt');
-        ref_file = fullfile(filepath, 'src', 'atlas', 'lausanne250+aseg.nii.gz');
+        lookuptable = fullfile(filepath, 'atlas', 'lausanne250.txt');
+        ref_file = fullfile(filepath, 'atlas', 'lausanne250+aseg.nii.gz');
     otherwise
         error('Atlas not supported.');
 end

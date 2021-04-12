@@ -34,7 +34,7 @@ disp('Runing null-brain model');
 
 if nargin == 2
     filepath = fileparts(mfilename('fullpath'));
-    data_ge = load(fullfile(filepath, 'src', 'gene_expression.mat'));
+    data_ge = load(fullfile(filepath, 'gene_expression.mat'));
     disp('## Loading default gene expression data in DK114 atlas ...');
     expressions = data_ge.mDataGEctx;
     gene_symbols = data_ge.gene_symbols;
@@ -73,7 +73,7 @@ disp(['## ', num2str(nnz(II)), '/', num2str(NG), ' genes with gene expression da
 
 % load brain genes
 filepath = fileparts(mfilename('fullpath'));
-data_ge = load(fullfile(filepath, 'src', 'gene_expression.mat'), 'BRAINgene_idx', 'gene_symbols');
+data_ge = load(fullfile(filepath, 'gene_expression.mat'), 'BRAINgene_idx', 'gene_symbols');
 BRAINgenes = data_ge.gene_symbols(data_ge.BRAINgene_idx);
 
 geneset = intersect(geneset, BRAINgenes);
@@ -108,6 +108,8 @@ beta_null = nan(nPerm, M);
 fprintf('%s', '## Progress:     ');
 
 [~, idx_background] = ismember(BRAINgenes, gene_symbols);
+BRAINgenes(idx_background==0) = '';
+idx_background(idx_background==0) = [];
 
 for kk = 1:nPerm
     fprintf('\b\b\b\b%.3d%%', round(kk/nPerm*100));

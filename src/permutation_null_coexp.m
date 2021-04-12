@@ -1,5 +1,5 @@
 function res = permutation_null_coexp(img_data, geneset, expressions, gene_symbols)
-% PERMUTATION_NULL_COEXP(...) performs permutation testing to examine
+% PERMUTATION_NULL_COEXP(IMG_DATA, GENESET) performs permutation testing to examine
 % whether imaging profiles associate with gene expression profiles, based
 % on the null-coexpression model (where random genes with similar
 % coexpression level is conserved).
@@ -36,7 +36,7 @@ disp('Runing null-coexpression model');
 
 if nargin == 2
     filepath = fileparts(mfilename('fullpath'));
-    data_ge = load(fullfile(filepath, 'src', 'gene_expression.mat'));
+    data_ge = load(fullfile(filepath, 'gene_expression.mat'));
     disp('## Loading default gene expression data in DK114 atlas ...');
     expressions = data_ge.mDataGEctx;
     gene_symbols = data_ge.gene_symbols;

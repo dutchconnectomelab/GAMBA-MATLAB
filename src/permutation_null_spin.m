@@ -34,7 +34,7 @@ disp('Runing null-spin model');
 
 if nargin == 2
     filepath = fileparts(mfilename('fullpath'));
-    data_ge = load(fullfile(filepath, 'src', 'gene_expression.mat'));
+    data_ge = load(fullfile(filepath, 'gene_expression.mat'));
     disp('## Loading default gene expression data in DK114 atlas ...');
     expressions = data_ge.mDataGEctx;
     gene_symbols = data_ge.gene_symbols;
@@ -71,9 +71,9 @@ if nnz(II) == 0
 end
 disp(['## ', num2str(nnz(II)), '/', num2str(NG), ' genes with gene expression data available']);
 
-% load brain genes
+% load available gene symbols
 filepath = fileparts(mfilename('fullpath'));
-data_ge = load(fullfile(filepath, 'src', 'gene_expression.mat'), 'gene_symbols');
+data_ge = load(fullfile(filepath, 'gene_expression.mat'), 'gene_symbols');
 
 geneset = intersect(geneset, data_ge.gene_symbols);
 NG = numel(geneset);
@@ -104,7 +104,7 @@ res.lr.p = pval;
 % Load data for the null-spin model
 null_spin_expression = nan(1000, 57, numel(geneset));
 for ii = 1:NG
-   filename = fullfile(filepath, 'src', 'gene_expression_spin', ...
+   filename = fullfile(filepath, 'gene_expression_spin', ...
        ['GE_spin_', geneset{ii}, '.txt']);
    null_spin_expression(:, :, ii) = dlmread(filename); 
 end

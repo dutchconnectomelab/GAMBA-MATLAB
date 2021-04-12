@@ -9,7 +9,6 @@ exampleID = 1; % 1, 2, 3, 4, 5
 %% Example 1
 % I have an imaging map (a nifti file) and a gene set. I want to test if 
 % the imaging pattern correlates to the expression pattern.'
-
 if exampleID == 1
     disp(strcat('Example 1. Examining association between Alzheimer', ...
         "'", 's VBM map and APOE, APP, PSEN2 expression patterns.'));
@@ -47,28 +46,35 @@ if exampleID == 1
     res_nullspin = permutation_null_spin(img_data, {'APOE', 'APP', 'PSEN2'});
 end
 
-
 %% Example 2
 % I have an imaging data matrix (region by feature), a gene expression data 
 % matrix (region by gene), and a gene set. I want to test if the imaging 
 % pattern correlates to the expression pattern.
-
-% UNDER CONSTRUCTION
-
 if exampleID == 2
+    disp(strcat('Example 2. Examining association between connectome ', ...
+    'metrics and the expression pattern of supragranular-enriched genes.'));
 
-    load('data/example_HSE.mat');
-    imgDescriptions = {'NOS','FA','SD','Degree','FC'};
+    % 2.1 load example data
+    load('src/examples/example_conn_5k_genes.mat');
+    % expression data matrix: 57 regions by 5000 genes
+    % imaging data matrix: 57 regions by 5 phenotypes
+    % gene set: 19 Human-supragranular genes
+    
+    % 2.2 Association between the imaging profile and the expression profile
+    % 2.2.1 null-coexpression model
+    res_nullcoexp = permutation_null_coexp(img_data, geneset, ...
+        gene_expression, gene_symbols);
 
-    % null-coexpression model
-    res_nullcoexp = permutation_null_coexp(img_data, geneset);
-
-    % null-brain model
-    res_nullbrain = permutation_null_brain(img_data, geneset);
-
-    % null-spin model
+    % 2.2.2 null-brain model
+    res_nullbrain = permutation_null_brain(img_data, geneset, ...);
+        gene_expression, gene_symbols);
+    
+    % 2.2.3 null-spin model
+    % ATTENTION: null-spin model ONLY works for DK114 atlas. If you use
+    % other atlas, please refer to Alexander-Bloch et al., 2018 to first
+    % generate gene expression data for 'spinned' atlas.
+    res_nullspin = permutation_null_spin(img_data, geneset);
 end
-
 
 %% Example 3
 % I have a gene-set. I want to test in which brain regions the gene-set is 
