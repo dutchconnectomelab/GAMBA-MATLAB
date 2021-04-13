@@ -36,8 +36,28 @@ This example examines whether the gene expression pattern of 19 human-supragranu
 
 NOTE: null-spin model ONLY works for DK114 atlas. If you use other atlas, please refer to Alexander-Bloch et al. (2018) to first generate gene expression data matrices for the 'spinned' atlases.
 
+#### 3. "I have a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
 
-#### 3. "I have a gene-set. I want to test in which brain regions the gene-set is over-expressed."
+In the third example, we show how to use this toolbox to examine in which brain regions the input GOI is differentially expressed considering different types of null models. The human-supragranular-enriched (HSE) genes are used here.
+
+We load the gene set first:
+
+`load('src/examples/example_conn_5k_genes.mat', 'geneset');`
+ 
+Now we have a gene set of 19 HSE genes. We then use the null-coexpression model to examine whether the mean expression of HSE genes is significantly higher/lower than random genes with the similar coexpression conserved for each brain region.
+
+`res_nullcoexp = permutation_expression_null_coexp(geneset);`
+    
+Next, we use the null-brain model to examine whether the mean expression of HSE genes is significantly higher/lower than random brain-enriched genes in general for each brain region.
+
+`res_nullbrain = permutation_expression_null_brain(geneset);`
+
+Using the above null models we will be able to examine the level of *gene specificity*. Another question we may ask is whether the mean expression of the GOI is specifically higher in one region in contrast to random brain regions. We are able to answer this “spatial specificity” question using the null-spin model.
+
+`res_nullspin = permutation_expression_null_spin(geneset);`
+
+Now, we have results for the questions we ask.
+
 
 #### 4. "I have a gene expression data matrix and a gene-set. I want to test in which brain regions the gene-set is over-expressed."
 

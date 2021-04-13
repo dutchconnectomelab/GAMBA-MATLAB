@@ -56,9 +56,6 @@ disp(['## ', num2str(K), ' genes detected totally.']);
 
 NG = numel(geneset);
 disp(['## ', num2str(NG), ' gene(s) of the GOI detected.']);
-if NG == 1
-    error('Only 1 gene included in the GOI. Coexpression cannot be computed.')
-end
 
 NGA = numel(gene_symbols);
 if NGA~=K

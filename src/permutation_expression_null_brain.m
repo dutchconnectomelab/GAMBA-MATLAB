@@ -1,12 +1,9 @@
-function res = permutation_null_brain(img_data, geneset, expressions, gene_symbols)
-% PERMUTATION_NULL_BRAIN(...) performs permutation testing to examine
-% whether imaging profiles associate with gene expression profiles, based
-% on the null-brain model (where random genes were selected from 
-% brain-expressed genes).
+function res = permutation_expression_null_brain(geneset, expressions, gene_symbols)
+% PERMUTATION_EXPRESSION_NULL_BRAIN(GENESET, EXPRESSIONS, GENE_SYMBOLS) 
+% performs permutation testing to examine in which regions the input gene 
+% set is overexpressed.
 %
 % INPUT
-%   img_data -- a NxM matrix of imaging profiles. N is the number of
-%       brain regions, M is the number of imaging traits.
 %   geneset -- a cell array of gene symbols of the genes of interest
 %   
 %   OPTIONAL:
@@ -19,10 +16,10 @@ function res = permutation_null_brain(img_data, geneset, expressions, gene_symbo
 %
 % OUTPUT
 %   res.p -- two-tailed p-value in permutation testing
-%   res.lr.beta -- standardized beta in linear regression
-%   res.lr.p -- two-tailed p-value in linear regression
-%   res.permut_beta -- standardized beta in the null model
-%   res.permut_gene_idx -- indexes of random genes in each permutation
+%   res.mean_expressions -- regional mean expressions of the input GOI
+%   res.null_expressions -- regional mean expressions of random BRAIN genes
+%   res.difference -- difference between mean_expressions and the mean of
+%       null_expressions, indicating the effect direction.
 %
 % REFERENCE
 %   Wei Y. et al., (2021) Statistical testing and annotation of gene 
@@ -32,27 +29,20 @@ function res = permutation_null_brain(img_data, geneset, expressions, gene_symbo
 % ========================== Check input data =============================
 disp('Runing null-brain model');
 
-if nargin == 2
+if nargin == 1
     filepath = fileparts(mfilename('fullpath'));
     data_ge = load(fullfile(filepath, 'gene_expression.mat'));
     disp('## Loading default gene expression data in DK114 atlas ...');
     expressions = data_ge.mDataGEctx;
     gene_symbols = data_ge.gene_symbols;
-elseif nargin == 3
+    regionDescriptions = data_ge.regionDescriptionCtx;
+elseif nargin == 2
     error('Please provide gene symbols of all genes included in the expression data.');
-elseif (nargin > 4) || (nargin < 2)
-    error('Input error. Please check input data.')
 end
 
-[N, M] = size(img_data);
-disp(['## ', num2str(N), ' brain regions detected.']);
-disp(['## ', num2str(M), ' imaging traits detected.']);
-
-[NE, K] = size(expressions);
-if N~=NE
-    error('Different amount of regions in imaging data and gene data. Please check input data.');
-end
+[N, K] = size(expressions);
 disp(['## ', num2str(K), ' genes detected totally.']);
+disp(['## ', num2str(N), ' brain regions detected.']);
 
 NG = numel(geneset);
 disp(['## ', num2str(NG), ' gene(s) of the GOI detected.']);
@@ -64,9 +54,9 @@ end
 
 II = ismember(gene_symbols, geneset);
 if nnz(II) == 0
-    error('None of the genes in the input gene set found in gene data');
+    error('None of the genes in the input gene set found in gene data.');
 end
-disp(['## ', num2str(nnz(II)), '/', num2str(NG), ' genes with gene expression data available']);
+disp(['## ', num2str(nnz(II)), '/', num2str(NG), ' genes with gene expression data available.']);
 
 % load brain genes
 filepath = fileparts(mfilename('fullpath'));
@@ -75,65 +65,45 @@ BRAINgenes = data_ge.gene_symbols(data_ge.BRAINgene_idx);
 
 geneset = intersect(geneset, BRAINgenes);
 II = ismember(gene_symbols, geneset);
-disp(['## ', num2str(nnz(II)), ' genes of the input GOI are brain-expressed genes.']);
-
-
-% ====================== Perform linear regression ========================
-beta = nan(M, 1);
-pval = nan(M, 1);
-
-% Standardize
-X = nanmean(expressions(:, II), 2);
-X = (X - nanmean(X)) ./ nanstd(X);
-Y = img_data;
-Y = (Y - repmat(nanmean(Y, 1), N, 1)) ./ repmat(nanstd(Y, '', 1), N, 1);
-
-for ii = 1: M
-    stats = regstats(Y(:, ii),  X, 'linear', {'beta','tstat'});            
-    beta(ii, 1) = stats.beta(2);
-    pval(ii, 1) = stats.tstat.pval(2);
-end
-res.lr.beta = beta;
-res.lr.p = pval;
+disp(['## ', num2str(nnz(II)), ' genes of the input GOI are brain-enriched genes.']);
 
 
 % ========================= Perform permutation ===========================
 nPerm = 10000;
 
-idx_rand_genes = nan(nPerm, nnz(II));
-beta_null = nan(nPerm, M);
+% raw mean expressions
+mGE = nanmean(expressions(:, ismember(gene_symbols, geneset)), 2);
+res.mean_expressions = mGE;
+
+% initialize permutation
 fprintf('%s', '## Progress:     ');
-
+idx_rand_genes = nan(nPerm, nnz(II));
 [~, idx_background] = ismember(BRAINgenes, gene_symbols);
-BRAINgenes(idx_background==0) = '';
 idx_background(idx_background==0) = [];
+tmpGE = nan(N, nPerm);
 
+% permutation
 for kk = 1:nPerm
     fprintf('\b\b\b\b%.3d%%', round(kk/nPerm*100));
-
     rid = idx_background(randperm(numel(idx_background), nnz(II)));    
     idx_rand_genes(kk, :) = rid;
-
-    % gene expressions of random genes
-    X = nanmean(expressions(:, rid), 2);
-    X = (X - nanmean(X)) ./ nanstd(X);
-
-    for ii = 1: M
-        stats = regstats(Y(:, ii), X, 'linear', {'beta'});            
-        beta_null(kk, ii) = stats.beta(2);
-    end
+    tmpGE(:, kk) = nanmean(expressions(:, rid), 2);
 end
-res.permut_gene_idx = idx_rand_genes;
-res.permut_beta = beta_null;
+res.null_expressions = tmpGE;
+res.difference = res.mean_expressions - nanmean(res.null_expressions, 2);
 
 % compute p-value
-for ii = 1: M
-    P = nnz(double(beta_null(:, ii) > beta(ii))) ./ nPerm;
+for ii = 1: N
+    P = nnz(double(tmpGE(ii, :) > mGE(ii))) ./ nPerm;
     if P > 0.5
         res.p(ii, 1) = (1 - P) * 2;
     else
         res.p(ii, 1) = P * 2;
     end
+end
+
+if exist('regionDescriptions', 'var')
+    res.regionDescriptions = regionDescriptions;
 end
 
 disp(' >> finished without errors');

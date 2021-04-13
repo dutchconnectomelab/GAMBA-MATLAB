@@ -3,7 +3,7 @@ filepath = fileparts(mfilename('fullpath'));
 addpath(genpath(filepath));
 
 % Select an example to run
-exampleID = 1; % 1, 2, 3, 4, 5
+exampleID = 3; % 1, 2, 3, 4, 5
 
 
 %% Example 1
@@ -81,7 +81,23 @@ end
 % over-expressed.
 
 % UNDER CONSTRUCTION
+if exampleID == 3
+    disp(strcat('Example 3. Testiassociation between connectome ', ...
+    'metrics and the expression pattern of supragranular-enriched genes.'));
 
+    % 2.1 load example data
+    load('src/examples/example_conn_5k_genes.mat', 'geneset');
+    % gene set: 19 Human-supragranular genes
+    
+    % 2.2.1 null-coexp model
+    res_nullcoexp = permutation_expression_null_coexp(geneset);
+    
+    % 2.2.2 null-brain model
+    res_nullbrain = permutation_expression_null_brain(geneset);
+    
+    % 2.2.3 null-spin model
+    res_nullspin = permutation_expression_null_spin(geneset);
+end
 
 %% Example 4
 % I have a gene expression matrix and a gene-set. I want to test in which 
