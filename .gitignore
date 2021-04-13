@@ -4,4 +4,4 @@ src/atlas/
 src/examples/
 src/gene_expression.mat
 src/gene_expression_spin/
-
+output/

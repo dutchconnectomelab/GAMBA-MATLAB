@@ -80,7 +80,6 @@ end
 % I have a gene-set. I want to test in which brain regions the gene-set is 
 % over-expressed.
 
-% UNDER CONSTRUCTION
 if exampleID == 3
     disp(strcat('Example 3. Testiassociation between connectome ', ...
     'metrics and the expression pattern of supragranular-enriched genes.'));
@@ -103,14 +102,36 @@ end
 % I have a gene expression matrix and a gene-set. I want to test in which 
 % brain regions the gene-set is over-expressed.
 
-% UNDER CONSTRUCTION
+if exampleID == 4
+    disp(strcat('Example 4. Testiassociation between connectome ', ...
+    'metrics and the expression pattern of supragranular-enriched genes.'));
 
+    % 2.1 load example data
+    load('src/examples/example_conn_5k_genes.mat', 'geneset', ...
+        'gene_expression', 'gene_symbols');
+    % gene set: 19 Human-supragranular genes
+    
+    % 2.2.1 null-coexp model
+    res_nullcoexp = permutation_expression_null_coexp(geneset, ...
+        gene_expression, gene_symbols);
+    
+    % 2.2.2 null-brain model
+    res_nullbrain = permutation_expression_null_brain(geneset, ...
+        gene_expression, gene_symbols);
+    
+    % 2.2.3 null-spin model
+    res_nullspin = permutation_expression_null_spin(geneset, ...
+        gene_expression, gene_symbols);
+end
 
 %% Example 5
 % I have an imaging map (.nii file) and I want to look for the most
 % correlated genes
 
-% UNDER CONSTRUCTION
+if exampleID == 5
+    
+   %UNDER CONSTRUCTION 
+end
 
 
 
