@@ -3,7 +3,7 @@ filepath = fileparts(mfilename('fullpath'));
 addpath(genpath(filepath));
 
 % Select an example to run
-exampleID = 3; % 1, 2, 3, 4, 5
+exampleID = 5; % 1, 2, 3, 4, 5
 
 
 %% Example 1
@@ -129,8 +129,28 @@ end
 % correlated genes
 
 if exampleID == 5
+    % 1.1 Co-register the imaging file to MNI152 space
+    input_img_file = fullfile(filepath, 'src', 'examples', ...
+        'alzheimers_ALE.nii.gz'); % meta-analysis of alzheimer's VBM studies
+    input_img_anat_file = fullfile(filepath, 'src', 'examples', ...
+        'Colin27_T1_seg_MNI_2x2x2.nii.gz'); % anatomical file in the same space
+    ref_img_file = fullfile(filepath, 'src', 'atlas', ...
+        'brain.nii.gz'); % reference file in MNI152 space
+    reg_file = fullfile(filepath, 'output', 'registration.mat');
+    output_img_file = fullfile(filepath, 'output', 'coreg_alzheimers_ALE.nii.gz');
+
+    % here using FSL flirt
+    system(['flirt -in ', input_img_anat_file, ' -ref ', ref_img_file, ...
+        ' -omat ', reg_file]);
+
+    system(['flirt -in ', input_img_file, ' -ref ', ref_img_file, ...
+        ' -applyxfm -init ', reg_file, ' -out ', output_img_file]);
+
+    % 1.2 Group the imaging map into brain regions (here regional mean)
+    res_Y = group_regions(output_img_file, 'DK114');
     
-   %UNDER CONSTRUCTION 
+    % 1.3 Using the null-spin model to look for the most correlated genes    
+    res_nullspin = permutation_null_spin_correlated_genes(img_data);
 end
 
 
