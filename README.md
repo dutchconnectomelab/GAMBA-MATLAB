@@ -30,23 +30,41 @@ We use examples to show the utility of this toolbox. Condition with respect to e
 
 This example uses VBM meta-analysis result -- a brain map showing the vulnerability of brain volume -- for Alzheimer's disease (AD), and examines whether the VBM pattern is associated with the pattern of brain gene expression of three AD risk genes ('APOE', 'APP', 'PSEN2') through GAMBA null-models. Preprocessed gene expression data from the Allen Human Brain Atlas (https://human.brain-map.org) will be used.
 
-In the first step, you need to co-register the imaging file to '/src/atlas/brain.nii.gz' (which is the MNI152 atlas used for brain parcellation and segmention). The following codes will do the co-registration using FSL FLIRT. If you do not use FSL, please adjust the codes to *coregister the input imaging file to /src/atlas/brain.nii.gz* and then continue.
+In the first step, you need to co-register the imaging file to '/src/atlas/brain.nii.gz' (which is the MNI152 atlas used for brain parcellation and segmentation). The following codes will do the co-registration using FSL FLIRT. If you do not use FSL, please adjust the codes to *coregister the input imaging file to /src/atlas/brain.nii.gz* and then continue.
     
-    input_img_file = fullfile(filepath, 'src', 'examples', ...
-        'alzheimers_ALE.nii.gz'); % meta-analysis of alzheimer's VBM studies
-    input_img_anat_file = fullfile(filepath, 'src', 'examples', ...
-        'Colin27_T1_seg_MNI_2x2x2.nii.gz'); % anatomical file in the same space
-    ref_img_file = fullfile(filepath, 'src', 'atlas', ...
-        'brain.nii.gz'); % reference file in MNI152 space
+    input_img_file = fullfile(filepath, 'src', 'examples', 'alzheimers_ALE.nii.gz');
+    input_img_anat_file = fullfile(filepath, 'src', 'examples', 'Colin27_T1_seg_MNI_2x2x2.nii.gz'); % anatomical file in the same space
+    ref_img_file = fullfile(filepath, 'src', 'atlas', 'brain.nii.gz'); % reference file in MNI152 space
     reg_file = fullfile(filepath, 'output', 'registration.mat');
     output_img_file = fullfile(filepath, 'output', 'coreg_alzheimers_ALE.nii.gz');
 
     % here using FSL flirt
     system(['flirt -in ', input_img_anat_file, ' -ref ', ref_img_file, ...
         ' -omat ', reg_file]);
-
     system(['flirt -in ', input_img_file, ' -ref ', ref_img_file, ...
         ' -applyxfm -init ', reg_file, ' -out ', output_img_file]);
+
+Next, you need to compute region-wise measurements based on the registered imaging map. Here, voxels within each brain region in the DK-114 atlas are averaged.
+
+    res_Y = group_regions(output_img_file, 'DK114');
+
+After this you will have a 114 x 1 brain-phenotypic data array, together with region descriptions of the 114 regions. Due to that only AHBA transcriptomic data from the left hemisphere is used, you need to extract brain-phenotypic data for the left hemisphere.
+
+    img_data = res_Y.data(contains(res_Y.regionDescriptions, 'ctx-lh-'));
+
+Now, you will be able to examine transcriptome-neuroimaging associations. It is highly recommended to first examine whether there is a **spatially specific** association between the brain-phenotypic pattern and the mean expression pattern of the input gene set of interest (here 'APOE', 'APP', 'PSEN2').
+
+    res_nullspin = permutation_null_spin(img_data, {'APOE', 'APP', 'PSEN2'});
+
+Next, you're recommended to examine the level of **gene specificity**, namely, the observed association goes beyond what you can expect by any other gene sets with similar co-expression levels.
+
+    res_nullcoexp = permutation_null_coexp(img_data, {'APOE', 'APP', 'PSEN2'});
+
+Afterward, it would be also more informative to examine whether these genes are **brain-enriched** genes and whether the observed association goes beyond what you can expect by any **brain-enriched** genes.
+
+    res_nullbrain = permutation_null_brain(img_data, {'APOE', 'APP', 'PSEN2'});
+
+By doing the above analysis, you will know whether there is a significant association between your brain-phenotypic pattern and the gene set of your interest, and, more importantly, whether the association is **spatial specific** and **gene specific**.
 
 
 ### 2. "I have an imaging data matrix (region by feature), a gene expression data matrix (region by gene), and a gene set. I want to test if the imaging pattern correlates to the expression pattern."
