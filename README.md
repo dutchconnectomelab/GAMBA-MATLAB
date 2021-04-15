@@ -30,7 +30,23 @@ We use examples to show the utility of this toolbox. Condition with respect to e
 
 This example uses VBM meta-analysis result -- a brain map showing the vulnerability of brain volume -- for Alzheimer's disease (AD), and examines whether the VBM pattern is associated with the pattern of brain gene expression of three AD risk genes ('APOE', 'APP', 'PSEN2') through GAMBA null-models. Preprocessed gene expression data from the Allen Human Brain Atlas (https://human.brain-map.org) will be used.
 
-NOTE: The example requires FSL (https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/) installed. For users do not use FSL, please adjust the script to *coregister your brain map to /src/atlas/brain.nii.gz* and then run the rest of the codes. 
+In the first step, you need to co-register the imaging file to '/src/atlas/brain.nii.gz' (which is the MNI152 atlas used for brain parcellation and segmention). The following codes will do the co-registration using FSL FLIRT. If you do not use FSL, please adjust the codes to *coregister the input imaging file to /src/atlas/brain.nii.gz* and then continue.
+    
+    input_img_file = fullfile(filepath, 'src', 'examples', ...
+        'alzheimers_ALE.nii.gz'); % meta-analysis of alzheimer's VBM studies
+    input_img_anat_file = fullfile(filepath, 'src', 'examples', ...
+        'Colin27_T1_seg_MNI_2x2x2.nii.gz'); % anatomical file in the same space
+    ref_img_file = fullfile(filepath, 'src', 'atlas', ...
+        'brain.nii.gz'); % reference file in MNI152 space
+    reg_file = fullfile(filepath, 'output', 'registration.mat');
+    output_img_file = fullfile(filepath, 'output', 'coreg_alzheimers_ALE.nii.gz');
+
+    % here using FSL flirt
+    system(['flirt -in ', input_img_anat_file, ' -ref ', ref_img_file, ...
+        ' -omat ', reg_file]);
+
+    system(['flirt -in ', input_img_file, ' -ref ', ref_img_file, ...
+        ' -applyxfm -init ', reg_file, ' -out ', output_img_file]);
 
 
 ### 2. "I have an imaging data matrix (region by feature), a gene expression data matrix (region by gene), and a gene set. I want to test if the imaging pattern correlates to the expression pattern."
