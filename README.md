@@ -1,24 +1,27 @@
 # GAMBA-MATLAB
-A Matlab toolbox to perform statistical analyses included in GAMBA (www.dutchconnectomelab.nl/GAMBA), which can be used to test whether the gene expression profile(s) of the input gene(s) and neuroimaging-derived brain phenotypes show overlapped spatial patterns. Different statistical null models are availale to examine both gene specificity and spatial specificity.
+A Matlab toolbox to perform statistical analyses examining whether the gene expression profile(s) of the input gene(s) and neuroimaging-derived brain phenotypes show overlapped spatial patterns. Different statistical null models are available to examine both gene specificity and spatial specificity. This toolbox is an extension of the web application GAMBA (www.dutchconnectomelab.nl/GAMBA).  
 
 For details, please see:
 
 > Wei Y. et al. (2021), Statistical testing and annotation of gene transcriptomic-neuroimaging associations, bioRxiv
 
 ## Installation
-### Download matlab toolbox
-- Download the github repository through the command line `git clone https://github.com/yongbin-wei/GAMBA_MATLAB.git`.
+### Requirements
+Before you start, make sure you have **Matlab** on your machine. There is no other requirements, but in our examples we use **FSL - FMRIB Software Library** to perform coregistration. It's not necessary of course, you can choose other equivalent tools for the same purpose, just modify the `example.m` scripts if needed. 
 
-Alternative:
+### Download
+Download the Github repository through the command line 
 
-- Click 'Code -- Download ZIP' and unzip the downloaded file.
+`git clone https://github.com/yongbin-wei/GAMBA_MATLAB.git`.
+
+Alternatively, you can click 'Code -- Download ZIP' and unzip the downloaded file.
+
 
 ### Extract required data
-- Run `install.m` in Matlab to retrieve all required data.
+Run `install.m` in Matlab to retrieve all required data.
 
-Alternative:
+Alternatively, you can download files here: https://www.dropbox.com/sh/psfudnzktyd0860/AABtx7ESvEphO60dcV_xbQ4qa?dl=0. Unzip downloaded files to the folder `src/`.
 
-- Manually download files under https://www.dropbox.com/sh/psfudnzktyd0860/AABtx7ESvEphO60dcV_xbQ4qa?dl=0 and unzip downloaded files under the folder `src/`.
 
 ## Examples
 We use examples to show the utility of this toolbox. Condition with respect to each example is described below and also in `examples.m`. 
