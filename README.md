@@ -7,7 +7,7 @@ For details, please see:
 
 ## Installation
 ### Requirements
-Before you start, make sure you have **Matlab** on your machine. There is no other requirements, but in our examples we use **FSL - FMRIB Software Library** to perform coregistration. It's not necessary of course, you can choose other equivalent tools for the same purpose, just modify the `example.m` scripts if needed. 
+Before you start, make sure you have **Matlab** on your machine. There is no other requirement, but in our examples we use **FSL - FMRIB Software Library** to perform coregistration. It's not necessary of course, you can choose other equivalent tools for the same purpose, just modify the `example.m` scripts if needed. 
 
 ### Download
 Download the Github repository through the command line 
