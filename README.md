@@ -71,17 +71,11 @@ By doing the above analysis, you will know whether there is a significant associ
 
 This example examines whether the gene expression pattern of 19 human-supragranular genes is associated with regional connectome metrics. The input data include: 1) a gene expression data matrix (57 regions x 5000 genes, a subset of the entire AHBA data); 2) an imaging data matrix (57 regions by 5 phenotypes, such as NOS-, FA-, SD-weighted nodal strength, nodal degree, and FC strength); 3) a gene set (19 genes).
 
-NOTE: null-spin model ONLY works for DK114 atlas. If you use other atlas, please refer to Alexander-Bloch et al. (2018) to first generate gene expression data matrices for the 'spinned' atlases.
-
-### 3. "I have a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
-
-In the third example, we show how to use this toolbox to examine in which brain regions the input GOI is differentially expressed considering different types of null models. The human-supragranular-enriched (HSE) genes are used here.
-
-We load the gene set first:
+You can load the example data first:
 
 `load('src/examples/example_conn_5k_genes.mat', 'geneset');`
  
-Now we have a gene set of 19 HSE genes. We then use the null-coexpression model to examine whether the mean expression of HSE genes is significantly higher/lower than random genes with the similar coexpression conserved for each brain region.
+Now you have a gene set of 19 HSE genes. We then use the null-coexpression model to examine whether the mean expression of HSE genes is significantly higher/lower than random genes with the similar coexpression conserved for each brain region.
 
 `res_nullcoexp = permutation_expression_null_coexp(geneset);`
     
@@ -95,8 +89,69 @@ Using the above null models we will be able to examine the level of *gene specif
 
 Now, we have results for the questions we ask.
 
+NOTE: null-spin model ONLY works for DK114 atlas. If you use other atlas, please refer to Alexander-Bloch et al. (2018) to first generate gene expression data matrices for the 'spinned' atlases.
 
+### 3. "I have a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
+
+In the third example, we show how to use this toolbox to examine in which brain regions the input GOI is differentially expressed considering different types of null models. The human-supragranular-enriched (HSE) genes are used as an example here.
+
+You need to load the example data first. Only gene symbols of the gene set are needed.
+
+    load('src/examples/example_conn_5k_genes.mat', 'geneset');
+
+Then you can examine in which brain region the input GOI is differentially expressed compared to random genes, using the null-coexpressed-gene model where the null distribution of gene expression of random genes with similar coexpression level is generated and is used in permutation testing.  
+
+    res_nullcoexp = permutation_expression_null_coexp(geneset);
+
+You can also examine the same question using the null-brain-gene model, where the null distribution of gene expression of brain-expressed genes is generated.
+
+    res_nullbrain = permutation_expression_null_brain(geneset);
+
+Another research question is "in which brain region the input GOI is differentially expressed compared to random brain regions", which can be examined using the null-spatial model.
+
+    res_nullspin = permutation_expression_null_spin(geneset);
+    
+    
 ### 4. "I have a gene expression data matrix and a gene-set. I want to test in which brain regions the gene-set is over-expressed."
+
+In the fourth example, we show how to use this toolbox to examine in which brain regions the input GOI is differentially expressed considering different types of null models, given a customized gene expression matrix. The human-supragranular-enriched (HSE) genes are used as an example here.
+
+You need to load the example data first. Gene symbols of the gene set, the gene expression matrix of all genes, and symbols of all genes are needed.
+
+    load('src/examples/example_conn_5k_genes.mat', 'geneset', 'gene_expression', 'gene_symbols');
+
+Then you can examine in which brain region the input GOI is differentially expressed compared to random genes, using the null-coexpressed-gene model where the null distribution of gene expression of random genes with similar coexpression level is generated and is used in permutation testing.  
+
+    res_nullcoexp = permutation_expression_null_coexp(geneset, gene_expression, gene_symbols);
+
+You can also examine the same question using the null-brain-gene model, where the null distribution of gene expression of brain-expressed genes is generated.
+
+    res_nullbrain = permutation_expression_null_brain(geneset, gene_expression, gene_symbols);
+
+For the other research question -- "in which brain region the input GOI is differentially expressed compared to random brain regions" -- you can use the following code only if you work on the desikan-killiany atlas with 57 left-hemisphere regions. Otherwise please use the spin model to generate random gene expression matrices first.
+
+    res_nullspin = permutation_expression_null_spin(geneset, gene_expression, gene_symbols);
+
 
 ### 5. "I have an imaging map (.nii file) and I want to look for the most correlated genes"
 
+In the last example, we show how to use our toolbox to look for the most correlated genes given an imaging map. This example uses VBM meta-analysis result for Alzheimer's disease (AD).
+
+You need to first co-register the imaging file to MNI152 space.
+
+    input_img_file = fullfile(filepath, 'src', 'examples', 'alzheimers_ALE.nii.gz');
+    input_img_anat_file = fullfile(filepath, 'src', 'examples', 'Colin27_T1_seg_MNI_2x2x2.nii.gz'); % anatomical file in the same space
+    ref_img_file = fullfile(filepath, 'src', 'atlas', 'brain.nii.gz'); % reference file in MNI152 space
+    reg_file = fullfile(filepath, 'output', 'registration.mat');
+    output_img_file = fullfile(filepath, 'output', 'coreg_alzheimers_ALE.nii.gz');
+
+    system(['flirt -in ', input_img_anat_file, ' -ref ', ref_img_file, ' -omat ', reg_file]);
+    system(['flirt -in ', input_img_file, ' -ref ', ref_img_file, ' -applyxfm -init ', reg_file, ' -out ', output_img_file]);
+
+Next, you need to compute region-wise measurements based on the registered imaging map. Here, voxels within each brain region in the DK-114 atlas are averaged.
+
+    res_Y = group_regions(output_img_file, 'DK114');
+
+Using the resulted phenotypic data you can now do correlations between single-gene expression profiles and the phenotypic profile, and then do permutations per gene using the null-spatial model.
+
+    res_nullspin = permutation_null_spin_correlated_genes(img_data);
