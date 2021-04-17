@@ -33,9 +33,13 @@ Alternatively, you can download files here: https://www.dropbox.com/sh/psfudnzkt
 We use examples to show the utility of this toolbox. Examples cover the following usage of the toolbox:
 
 - "I have an imaging map (e.g., a nifti file) and a gene set. I want to test if the imaging pattern correlates to the gene expression pattern."
+
 - "I have an imaging data matrix (region by feature), a gene expression data matrix (region by gene), and a gene set. I want to test if the imaging pattern correlates to the gene expression pattern."
+
 - "I have a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
+
 - "I have a gene expression data matrix and a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
+
 - "I have an imaging map (e.g., a nifti file) and I want to look for the most correlated genes."
 
 Scripts concerning each question are included in `examples.m`. Here is a detailed tutorial:
