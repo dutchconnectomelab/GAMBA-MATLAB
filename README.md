@@ -33,13 +33,9 @@ Alternatively, you can download files here: https://www.dropbox.com/sh/psfudnzkt
 We use examples to show the utility of this toolbox. Examples cover the following usage of the toolbox:
 
 - "I have an imaging map (e.g., a nifti file) and a gene set. I want to test if the imaging pattern correlates to the gene expression pattern."
-
 - "I have an imaging data matrix (region by feature), a gene expression data matrix (region by gene), and a gene set. I want to test if the imaging pattern correlates to the gene expression pattern."
-
 - "I have a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
-
 - "I have a gene expression data matrix and a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
-
 - "I have an imaging map (e.g., a nifti file) and I want to look for the most correlated genes."
 
 Scripts concerning each question are included in `examples.m`. Here is a detailed tutorial:
@@ -207,6 +203,10 @@ output_img_file = fullfile(filepath, 'output', 'coreg_alzheimers_ALE.nii.gz');
 system(['flirt -in ', input_img_anat_file, ' -ref ', ref_img_file, ' -omat ', reg_file]);
 system(['flirt -in ', input_img_file, ' -ref ', ref_img_file, ' -applyxfm -init ', reg_file, ' -out ', output_img_file]);
 ```
+
+Note 1: if `flirt` doesn’t work you may need to use the absolute path to FSL (which can be viewed in terminal through `echo $FSLDIR`). Then the Matlab script should be something like `system([‘/usr/local/fsl/bin/flirt -in input_img_anat_file … … `
+ 
+Note 2: If you do not use FSL, please adjust the codes to coregister the input imaging file to */src/atlas/brain.nii.gz* and then continue.
 
 Next, you need to compute region-wise measurements based on the registered imaging map. Here, voxels within each brain region in the DK-114 atlas are averaged.
 
