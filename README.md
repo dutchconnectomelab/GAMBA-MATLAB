@@ -1,6 +1,6 @@
 # GAMBA-MATLAB
 
-A Matlab toolbox to study whether the expression of the gene(s) of interest (GOI) and neuroimaging-derived brain phenotypes show overlapped spatial patterns. Different statistical **null models** are available to examine both ***gene specificity*** and ***spatial specificity***. This toolbox is an extension of the web application [GAMBA](www.dutchconnectomelab.nl/GAMBA). 
+A Matlab toolbox to study whether the expression of the gene(s) of interest (GOI) and neuroimaging-derived brain phenotypes show overlapped spatial patterns. Different statistical **null models** are available to examine both ***gene specificity*** and ***spatial specificity***. This toolbox is an extension of the web application [GAMBA](http://www.dutchconnectomelab.nl/GAMBA/). 
 
 For details, please see:
 
@@ -12,7 +12,7 @@ For details, please see:
 
 Before you start, make sure you have **Matlab** on your machine. 
 
-No other software required, but in our examples we use [FSL - FMRIB Software Library](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki) to perform coregistration. You can use other equivalent tools for the same purpose. Just modify the `example.m` scripts if needed. 
+No other software required, but in our examples we use [FSL - FMRIB Software Library](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki) to perform image coregistration. You can use other equivalent tools for the same purpose. See for details in `example.m`. 
 
 ### Download
 
@@ -32,11 +32,11 @@ Alternatively, you can download files here: https://www.dropbox.com/sh/psfudnzkt
 
 We use examples to show the utility of this toolbox. Examples cover the following usage of the toolbox:
 
- "I have an imaging map (e.g., a nifti file) and a gene set. I want to test if the imaging pattern correlates to the gene expression pattern."
-"I have an imaging data matrix (region by feature), a gene expression data matrix (region by gene), and a gene set. I want to test if the imaging pattern correlates to the gene expression pattern."
-"I have a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
-"I have a gene expression data matrix and a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
-"I have an imaging map (e.g., a nifti file) and I want to look for the most correlated genes."
+- "I have an imaging map (e.g., a nifti file) and a gene set. I want to test if the imaging pattern correlates to the gene expression pattern."
+- "I have an imaging data matrix (region by feature), a gene expression data matrix (region by gene), and a gene set. I want to test if the imaging pattern correlates to the gene expression pattern."
+- "I have a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
+- "I have a gene expression data matrix and a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
+- "I have an imaging map (e.g., a nifti file) and I want to look for the most correlated genes."
 
 Scripts concerning each question are included in `examples.m`. A detailed tutorial is can be found below:
 
