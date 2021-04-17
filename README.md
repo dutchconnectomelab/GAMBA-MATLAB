@@ -38,48 +38,66 @@ We use examples to show the utility of this toolbox. Examples cover the followin
 - "I have a gene expression data matrix and a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
 - "I have an imaging map (e.g., a nifti file) and I want to look for the most correlated genes."
 
-Scripts concerning each question are included in `examples.m`. A detailed tutorial is can be found below:
+Scripts concerning each question are included in `examples.m`. Here is a detailed tutorial:
 
 #### 1. "I have an imaging map (a nifti file) and a gene set. I want to test if the imaging pattern correlates to the gene expression pattern."
 
-This example uses VBM meta-analysis result -- a brain map showing the vulnerability of brain volume -- for Alzheimer's disease (AD) and examines whether the VBM pattern is associated with the pattern of brain gene expression of three AD risk genes ('APOE', 'APP', 'PSEN2') through GAMBA null-models. Preprocessed gene expression data from the Allen Human Brain Atlas (https://human.brain-map.org) will be used.
+This example uses VBM meta-analysis result -- a brain map showing the vulnerability of brain volume -- for Alzheimer's disease (AD) and examines whether the VBM pattern is associated with the pattern of brain gene expression of three AD risk genes ('APOE', 'APP', 'PSEN2') through GAMBA null-models. 
 
-In the first step, you need to co-register the imaging file to '/src/atlas/brain.nii.gz' (which is the MNI152 atlas used for brain parcellation and segmentation). The following codes will do the co-registration using FSL FLIRT. If you do not use FSL, please adjust the codes to *coregister the input imaging file to /src/atlas/brain.nii.gz* and then continue.
+In the first step, you need to co-register the imaging file to *'/src/atlas/brain.nii.gz'* (which is the MNI152 atlas used for brain parcellation and segmentation). The following codes will do the co-registration using FSL FLIRT.
 
 ```matlab    
-    input_img_file = fullfile(filepath, 'src', 'examples', 'alzheimers_ALE.nii.gz');
-    input_img_anat_file = fullfile(filepath, 'src', 'examples', 'Colin27_T1_seg_MNI_2x2x2.nii.gz'); % anatomical file in the same space
-    ref_img_file = fullfile(filepath, 'src', 'atlas', 'brain.nii.gz'); % reference file in MNI152 space
-    reg_file = fullfile(filepath, 'output', 'registration.mat');
-    output_img_file = fullfile(filepath, 'output', 'coreg_alzheimers_ALE.nii.gz');
+input_img_file = fullfile(filepath, 'src', 'examples', 'alzheimers_ALE.nii.gz');
+input_img_anat_file = fullfile(filepath, 'src', 'examples', 'Colin27_T1_seg_MNI_2x2x2.nii.gz'); % anatomical file in the same space
+ref_img_file = fullfile(filepath, 'src', 'atlas', 'brain.nii.gz'); % reference file in MNI152 space
+reg_file = fullfile(filepath, 'output', 'registration.mat');
+output_img_file = fullfile(filepath, 'output', 'coreg_alzheimers_ALE.nii.gz');
 
-    system(['flirt -in ', input_img_anat_file, ' -ref ', ref_img_file, ...
-        ' -omat ', reg_file]);
-    system(['flirt -in ', input_img_file, ' -ref ', ref_img_file, ...
-        ' -applyxfm -init ', reg_file, ' -out ', output_img_file]);
+system(['flirt -in ', input_img_anat_file, ' -ref ', ref_img_file, ' -omat ', reg_file]);
+    system(['flirt -in ', input_img_file, ' -ref ', ref_img_file, ' -applyxfm -init ', reg_file, ' -out ', output_img_file]);
 ```
 
-Next, you need to compute region-wise measurements based on the registered imaging map. Here, voxels within each brain region in the DK-114 atlas are averaged.
+Note 1: if `flirt` doesn’t work you may need to use the absolute path to FSL (which can be viewed in terminal through `echo $FSLDIR`). Then the Matlab script should be something like `system([` /usr/local/fsl/bin/flirt -in input_img_anat_file … … `
+ 
+Note 2: If you do not use FSL, please adjust the codes to coregister the input imaging file to */src/atlas/brain.nii.gz* and then continue.
 
-    res_Y = group_regions(output_img_file, 'DK114');
+Next, you need to compute region-wise measures based on the registered imaging map. Here, voxels within each brain region in the Desikan-Killiany-114-region (DK114) atlas are averaged.
 
-After this you will have a 114 x 1 brain-phenotypic data array, together with region descriptions of the 114 regions. Due to that only AHBA transcriptomic data from the left hemisphere is used, you need to extract brain-phenotypic data for the left hemisphere.
+```matlab    
+res_Y = group_regions(output_img_file, 'DK114');
+```
 
-    img_data = res_Y.data(contains(res_Y.regionDescriptions, 'ctx-lh-'));
+After this you will get a 114 x 1 brain-phenotypic data array, together with region descriptions of the 114 regions. 
 
-Now, you will be able to examine transcriptome-neuroimaging associations. It is highly recommended to first examine whether there is a **spatially specific** association between the brain-phenotypic pattern and the mean expression pattern of the input gene set of interest (here 'APOE', 'APP', 'PSEN2').
+Now it’s time to compute the correlation between the phenotypic data array and gene expression data matrix. 
 
-    res_nullspin = permutation_null_spin(img_data, {'APOE', 'APP', 'PSEN2'});
 
-Next, you're recommended to examine the level of **gene specificity**, namely, the observed association goes beyond what you can expect by any other gene sets with similar co-expression levels.
 
-    res_nullcoexp = permutation_null_coexp(img_data, {'APOE', 'APP', 'PSEN2'});
+Preprocessed gene expression data matrix (57 x 17879) from the [Allen Human Brain Atlas](https://human.brain-map.org) will be used. Due to that only AHBA transcriptomic data from the left hemisphere is used, you also need to extract brain-phenotypic data for the left hemisphere.
 
-Afterward, it would be also more informative to examine whether these genes are **brain-enriched** genes and whether the observed association goes beyond what you can expect by any **brain-enriched** genes.
+```matlab 
+img_data = res_Y.data(contains(res_Y.regionDescriptions, 'ctx-lh-'));
+```
 
-    res_nullbrain = permutation_null_brain(img_data, {'APOE', 'APP', 'PSEN2'});
+Then, you can examine for instance whether there is a **spatially specific** association between the brain-phenotypic pattern and the mean expression pattern of the input GOI (here 'APOE', 'APP', 'PSEN2') using the **null-spatial** model.
 
-By doing the above analysis, you will know whether there is a significant association between your brain-phenotypic pattern and the gene set of your interest, and, more importantly, whether the association is **spatial specific** and **gene-specific**.
+```matlab 
+res_nullspin = permutation_null_spin(img_data, {'APOE', 'APP', 'PSEN2'});
+```
+
+As we showed in our paper, **spatial specificity** is however not enough, you need to examine the level of **gene specificity**, namely, whether the observed association exceeds what one can expect by any other gene sets with similar co-expression levels (i.e., the **null-coexpressed-gene model**).
+
+```matlab 
+res_nullcoexp = permutation_null_coexp(img_data, {'APOE', 'APP', 'PSEN2'});
+```
+
+A more stringent null model can be used to examine how many genes of the GOI are **brain-expressed** genes and whether the observed association exceeds what one can expect by any **brain-expressed** genes (i,e., the **null-brain-gene model**).
+
+```matlab 
+res_nullbrain = permutation_null_brain(img_data, {'APOE', 'APP', 'PSEN2'});
+```
+
+After doing the above analysis, you will know whether there is a significant association between your brain-phenotypic pattern and the gene set of your interest, and, more importantly, whether the association is **spatial specific** and **gene-specific**.
 
 
 
