@@ -18,7 +18,7 @@ No other software required, but in our examples we use [FSL - FMRIB Software Lib
 
 Through the command line in terminal:
 
-`git clone https://github.com/yongbin-wei/GAMBA_MATLAB.git`.
+`git clone https://github.com/dutchconnectomelab/GAMBA-MATLAB.git`.
 
 Alternatively, you can click 'Code -- Download ZIP' and unzip the downloaded file.
 
