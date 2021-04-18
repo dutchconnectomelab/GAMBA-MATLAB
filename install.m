@@ -1,6 +1,8 @@
 % Run this script for the first time to retrieve necessary data 
 clc, clear, close all
 filepath = fileparts(mfilename('fullpath'));
+addpath(genpath(filepath));
+savepath;
 
 if ~exist(fullfile(filepath, 'output'), 'dir')
     mkdir(fullfile(filepath, 'output'));
@@ -30,11 +32,10 @@ unzip(outfilename, fullfile(filepath, 'src'));
 delete(outfilename);
 fprintf('%s\n', 'finished');
 
-% Download spin data
-fprintf('%s', '## Download expression data for the null-spin model (~1.5G) ...');
+% Download data for the null-spatial model
+fprintf('%s', '## Download expression data for the null-spatial model (~1.5G) ...');
 outfilename = websave(fullfile(filepath, 'src', 'gene_expression_spin.zip'), ...
     'https://www.dropbox.com/s/nwmtqro3dkma3u1/gene_expression_spin.zip?dl=1');
 unzip(outfilename, fullfile(filepath, 'src'));
 delete(outfilename);
 fprintf('%s\n', 'finished');
-
