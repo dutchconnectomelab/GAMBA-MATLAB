@@ -24,13 +24,13 @@ Alternatively, you can click 'Code -- Download ZIP' and unzip the downloaded fil
 
 ### Add to path
 
-Open Matlab, click "Set Path" -- "Add with Subfolder..." and add the `GAMBA-MATLAB` folder to the search path. Then click "Save".
+Open Matlab, click "Set Path" -- "Add with Subfolder..." and add the *GAMBA-MATLAB* folder to the search path. Then click "Save".
 
 ### Extract required data
 
 Run `install.m` in Matlab to retrieve all required data.
 
-Alternatively, you can download files here: https://www.dropbox.com/sh/psfudnzktyd0860/AABtx7ESvEphO60dcV_xbQ4qa?dl=0. Unzip downloaded files to the folder `src/`.
+Alternatively, you can download files here: https://www.dropbox.com/sh/psfudnzktyd0860/AABtx7ESvEphO60dcV_xbQ4qa?dl=0. Unzip downloaded files to the folder *src/*.
 
 ## Examples
 
