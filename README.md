@@ -24,7 +24,7 @@ Alternatively, you can click 'Code -- Download ZIP' and unzip the downloaded fil
 
 ### Add to path
 
-Open Matlab, click "Set Path" and add the GAMBA-MATLAB folder to the search path.
+Open Matlab, click "Set Path" -- "Add Folder..." and add the `GAMBA-MATLAB/src` folder to the search path.
 
 ### Extract required data
 
