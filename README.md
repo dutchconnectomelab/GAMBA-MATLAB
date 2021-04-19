@@ -22,6 +22,10 @@ Through the command line in terminal:
 
 Alternatively, you can click 'Code -- Download ZIP' and unzip the downloaded file.
 
+### Add to path
+
+Open Matlab, click "Set Path" and add the GAMBA-MATLAB folder to the search path.
+
 ### Extract required data
 
 Run `install.m` in Matlab to retrieve all required data.
