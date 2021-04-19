@@ -1,8 +1,6 @@
 % Run this script for the first time to retrieve necessary data 
 clc, clear, close all
 filepath = fileparts(mfilename('fullpath'));
-addpath(genpath(filepath));
-savepath;
 
 if ~exist(fullfile(filepath, 'output'), 'dir')
     mkdir(fullfile(filepath, 'output'));
