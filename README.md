@@ -24,11 +24,11 @@ Alternatively, you can click 'Code -- Download ZIP' and unzip the downloaded fil
 
 ### Add to path
 
-Open Matlab, click "Set Path" -- "Add with Subfolder..." and add the *GAMBA-MATLAB* folder to the search path. Then click "Save".
+Open MATLAB, click "Set Path" -- "Add with Subfolder..." and add the *GAMBA-MATLAB* folder to the search path. Then click "Save".
 
 ### Extract required data
 
-Run `install.m` in Matlab to retrieve all required data.
+Run `install.m` in MATLAB to retrieve all required data.
 
 Alternatively, you can download files here: https://www.dropbox.com/sh/psfudnzktyd0860/AABtx7ESvEphO60dcV_xbQ4qa?dl=0. Unzip downloaded files to the folder *src/*.
 
@@ -61,7 +61,7 @@ system(['flirt -in ', input_img_anat_file, ' -ref ', ref_img_file, ' -omat ', re
 system(['flirt -in ', input_img_file, ' -ref ', ref_img_file, ' -applyxfm -init ', reg_file, ' -out ', output_img_file]);
 ```
 
-Note 1: if `flirt` doesn’t work you may need to use the absolute path to FSL (which can be viewed in terminal through `echo $FSLDIR`). Then the Matlab script should be something like `system([‘/usr/local/fsl/bin/flirt -in input_img_anat_file … … `
+Note 1: if `flirt` doesn’t work you may need to use the absolute path to FSL (which can be viewed in terminal through `echo $FSLDIR`). Then the MATLAB script should be something like `system([‘/usr/local/fsl/bin/flirt -in input_img_anat_file … … `
  
 Note 2: If you do not use FSL, please adjust the codes to coregister the input imaging file to */src/atlas/brain.nii.gz* and then continue.
 
@@ -200,7 +200,8 @@ You need to first coregister the imaging file to MNI152 space.
 
 ```matlab
 input_img_file = fullfile(filepath, 'src', 'examples', 'alzheimers_ALE.nii.gz');
-input_img_anat_file = fullfile(filepath, 'src', 'examples', 'Colin27_T1_seg_MNI_2x2x2.nii.gz'); ref_img_file = fullfile(filepath, 'src', 'atlas', 'brain.nii.gz'); % reference file in MNI152 space
+input_img_anat_file = fullfile(filepath, 'src', 'examples', 'Colin27_T1_seg_MNI_2x2x2.nii.gz'); 
+ref_img_file = fullfile(filepath, 'src', 'atlas', 'brain.nii.gz'); % reference file in MNI152 space
 reg_file = fullfile(filepath, 'output', 'registration.mat');
 output_img_file = fullfile(filepath, 'output', 'coreg_alzheimers_ALE.nii.gz');
 
@@ -208,7 +209,7 @@ system(['flirt -in ', input_img_anat_file, ' -ref ', ref_img_file, ' -omat ', re
 system(['flirt -in ', input_img_file, ' -ref ', ref_img_file, ' -applyxfm -init ', reg_file, ' -out ', output_img_file]);
 ```
 
-Note 1: if `flirt` doesn’t work you may need to use the absolute path to FSL (which can be viewed in terminal through `echo $FSLDIR`). Then the Matlab script should be something like `system([‘/usr/local/fsl/bin/flirt -in input_img_anat_file … … `
+Note 1: if `flirt` doesn’t work you may need to use the absolute path to FSL (which can be viewed in terminal through `echo $FSLDIR`). Then the MATLAB script should be something like `system([‘/usr/local/fsl/bin/flirt -in input_img_anat_file … … `
  
 Note 2: If you do not use FSL, please adjust the codes to coregister the input imaging file to */src/atlas/brain.nii.gz* and then continue.
 
