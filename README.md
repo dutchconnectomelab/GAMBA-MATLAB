@@ -22,7 +22,7 @@ Through the command line in terminal:
 
 Alternatively, you can click 'Code -- Download ZIP' and unzip the downloaded file.
 
-### Installation
+### Install
 
 Open MATLAB, run `install.m` to install the toolbox and retrieve all required data.
 
