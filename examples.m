@@ -3,7 +3,7 @@ filepath = fileparts(mfilename('fullpath'));
 addpath(genpath(filepath));
 
 % Select an example to run
-exampleID = 5; % 1, 2, 3, 4, 5
+exampleID = 2; % 1, 2, 3, 4, 5
 
 
 %% Example 1

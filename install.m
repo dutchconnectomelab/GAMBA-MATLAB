@@ -6,6 +6,10 @@ if ~exist(fullfile(filepath, 'output'), 'dir')
     mkdir(fullfile(filepath, 'output'));
 end
 
+% Add path
+addpath(genpath(filepath));
+savepath;
+
 % Download atlas data
 fprintf('%s', '## Download atlas data ...');
 outfilename = websave(fullfile(filepath, 'src', 'atlas.zip'), ...

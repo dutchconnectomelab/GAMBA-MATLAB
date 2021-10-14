@@ -22,15 +22,11 @@ Through the command line in terminal:
 
 Alternatively, you can click 'Code -- Download ZIP' and unzip the downloaded file.
 
-### Add to path
+### Installation
 
-Open MATLAB, click "Set Path" -- "Add with Subfolder..." and add the *GAMBA-MATLAB* folder to the search path. Then click "Save".
+Open MATLAB, run `install.m` to install the toolbox and retrieve all required data.
 
-### Extract required data
-
-Run `install.m` in MATLAB to retrieve all required data.
-
-Alternatively, you can download files here: https://www.dropbox.com/sh/psfudnzktyd0860/AABtx7ESvEphO60dcV_xbQ4qa?dl=0. Unzip downloaded files to the folder *src/*.
+Data files will be automatically downloaded from: https://www.dropbox.com/sh/psfudnzktyd0860/AABtx7ESvEphO60dcV_xbQ4qa?dl=0 and be saved to the folder *src/*.
 
 ## Examples
 
