@@ -1,25 +1,19 @@
 % Run this script for the first time to retrieve necessary data 
 clc, clear, close all
 filepath = fileparts(mfilename('fullpath'));
-addpath(genpath(filepath));
-savepath;
 
 if ~exist(fullfile(filepath, 'output'), 'dir')
     mkdir(fullfile(filepath, 'output'));
 end
 
+% Add path
+addpath(genpath(filepath));
+savepath;
+
 % Download atlas data
 fprintf('%s', '## Download atlas data ...');
 outfilename = websave(fullfile(filepath, 'src', 'atlas.zip'), ...
     'https://www.dropbox.com/s/a3ov1ztgaen5u2m/atlas.zip?dl=1');
-unzip(outfilename, fullfile(filepath, 'src'));
-delete(outfilename);
-fprintf('%s\n', 'finished');
-
-% Download expression data
-fprintf('%s', '## Download expression data ...');
-outfilename = websave(fullfile(filepath, 'src', 'gene_expression.mat.zip'), ...
-    'https://www.dropbox.com/s/fujw4i8600xrc9k/gene_expression.mat.zip?dl=1');
 unzip(outfilename, fullfile(filepath, 'src'));
 delete(outfilename);
 fprintf('%s\n', 'finished');

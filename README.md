@@ -1,6 +1,6 @@
 # GAMBA-MATLAB
 
-A Matlab toolbox to study whether the expression of the gene(s) of interest (GOI) and neuroimaging-derived brain phenotypes show overlapped spatial patterns. Different statistical **null models** are available to examine both ***gene specificity*** and ***spatial specificity***. This toolbox is an extension of the web application [GAMBA](http://www.dutchconnectomelab.nl/GAMBA/). 
+A MATLAB toolbox to study whether the expression of the gene(s) of interest (GOI) and neuroimaging-derived brain phenotypes show overlapped spatial patterns. Different statistical **null models** are available to examine both ***gene specificity*** and ***spatial specificity***. This toolbox is an extension of the web application [GAMBA](http://www.dutchconnectomelab.nl/GAMBA/). 
 
 For details, please see:
 
@@ -10,9 +10,9 @@ For details, please see:
 
 ### Requirements
 
-Before you start, make sure you have **Matlab** on your machine. 
+Before you start, make sure you have **MATLAB** on your machine. 
 
-No other software required, but in our examples we use [FSL - FMRIB Software Library](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki) to perform image coregistration. You can use other equivalent tools for the same purpose. See for details in `example.m`. 
+In our examples we use [FSL - FMRIB Software Library](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki) to perform image coregistration. You can use other equivalent tools for the same purpose. See for details in `example.m`. 
 
 ### Download
 
@@ -22,11 +22,11 @@ Through the command line in terminal:
 
 Alternatively, you can click 'Code -- Download ZIP' and unzip the downloaded file.
 
-### Extract required data
+### Install
 
-Run `install.m` in Matlab to retrieve all required data.
+Open MATLAB, run `install.m` to install the toolbox and retrieve all required data.
 
-Alternatively, you can download files here: https://www.dropbox.com/sh/psfudnzktyd0860/AABtx7ESvEphO60dcV_xbQ4qa?dl=0. Unzip downloaded files to the folder `src/`.
+Data files will be automatically downloaded from: https://www.dropbox.com/sh/psfudnzktyd0860/AABtx7ESvEphO60dcV_xbQ4qa?dl=0 and be saved to the folder *src/*.
 
 ## Examples
 
@@ -34,11 +34,11 @@ We use examples to show the utility of this toolbox. Examples cover the followin
 
 - "I have an imaging map (e.g., a nifti file) and a gene set. I want to test if the imaging pattern correlates to the gene expression pattern."
 - "I have an imaging data matrix (region by feature), a gene expression data matrix (region by gene), and a gene set. I want to test if the imaging pattern correlates to the gene expression pattern."
-- "I have a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
-- "I have a gene expression data matrix and a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
+- "I have a gene set. I want to test in which brain regions the gene set is differentially expressed."
+- "I have a gene expression data matrix and a gene set. I want to test in which brain regions the gene set is differentially expressed."
 - "I have an imaging map (e.g., a nifti file) and I want to look for the most correlated genes."
 
-Scripts concerning each question are included in `examples.m`. Here is a detailed tutorial:
+Scripts related to above questions are included in `examples.m`. Here is a detailed tutorial:
 
 #### 1. "I have an imaging map (a nifti file) and a gene set. I want to test if the imaging pattern correlates to the gene expression pattern."
 
@@ -57,7 +57,7 @@ system(['flirt -in ', input_img_anat_file, ' -ref ', ref_img_file, ' -omat ', re
 system(['flirt -in ', input_img_file, ' -ref ', ref_img_file, ' -applyxfm -init ', reg_file, ' -out ', output_img_file]);
 ```
 
-Note 1: if `flirt` doesn’t work you may need to use the absolute path to FSL (which can be viewed in terminal through `echo $FSLDIR`). Then the Matlab script should be something like `system([‘/usr/local/fsl/bin/flirt -in input_img_anat_file … … `
+Note 1: if `flirt` doesn’t work you may need to use the absolute path to FSL (which can be viewed in terminal through `echo $FSLDIR`). Then the MATLAB script should be something like `system([‘/usr/local/fsl/bin/flirt -in input_img_anat_file … … `
  
 Note 2: If you do not use FSL, please adjust the codes to coregister the input imaging file to */src/atlas/brain.nii.gz* and then continue.
 
@@ -130,7 +130,7 @@ res_nullbraingene = permutation_null_brain(img_data, geneset, gene_expression, g
 
 The above codes will help you get to know whether there is a significant association between your brain-phenotypic pattern and the gene set of your interest, and, more importantly, whether the association is **spatial specific** and **gene-specific**.
 
-#### 3. "I have a gene-set. I want to test in which brain regions the gene-set is differentially expressed."
+#### 3. "I have a gene set. I want to test in which brain regions the gene set is differentially expressed."
 
 In the third example, we show how to use this toolbox to examine in which brain regions the input GOI is differentially expressed considering different types of null models. The human-supragranular-enriched (HSE) genes are used here.
 
@@ -160,7 +160,7 @@ Another question we may ask is *whether the mean expression of the GOI is specif
 res_nullspatial = permutation_expression_null_spin(geneset);
 ```
 
-#### 4. "I have a gene expression data matrix and a gene-set. I want to test in which brain regions the gene-set is over-expressed."
+#### 4. "I have a gene expression data matrix and a gene set. I want to test in which brain regions the gene set is over-expressed."
 
 In the fourth example, we show how to use this toolbox to examine in which brain regions the input GOI is differentially expressed considering different types of null models, given a customized gene expression matrix. The human-supragranular-enriched (HSE) genes are used as an example here.
 
@@ -196,7 +196,8 @@ You need to first coregister the imaging file to MNI152 space.
 
 ```matlab
 input_img_file = fullfile(filepath, 'src', 'examples', 'alzheimers_ALE.nii.gz');
-input_img_anat_file = fullfile(filepath, 'src', 'examples', 'Colin27_T1_seg_MNI_2x2x2.nii.gz'); ref_img_file = fullfile(filepath, 'src', 'atlas', 'brain.nii.gz'); % reference file in MNI152 space
+input_img_anat_file = fullfile(filepath, 'src', 'examples', 'Colin27_T1_seg_MNI_2x2x2.nii.gz'); 
+ref_img_file = fullfile(filepath, 'src', 'atlas', 'brain.nii.gz'); % reference file in MNI152 space
 reg_file = fullfile(filepath, 'output', 'registration.mat');
 output_img_file = fullfile(filepath, 'output', 'coreg_alzheimers_ALE.nii.gz');
 
@@ -204,7 +205,7 @@ system(['flirt -in ', input_img_anat_file, ' -ref ', ref_img_file, ' -omat ', re
 system(['flirt -in ', input_img_file, ' -ref ', ref_img_file, ' -applyxfm -init ', reg_file, ' -out ', output_img_file]);
 ```
 
-Note 1: if `flirt` doesn’t work you may need to use the absolute path to FSL (which can be viewed in terminal through `echo $FSLDIR`). Then the Matlab script should be something like `system([‘/usr/local/fsl/bin/flirt -in input_img_anat_file … … `
+Note 1: if `flirt` doesn’t work you may need to use the absolute path to FSL (which can be viewed in terminal through `echo $FSLDIR`). Then the MATLAB script should be something like `system([‘/usr/local/fsl/bin/flirt -in input_img_anat_file … … `
  
 Note 2: If you do not use FSL, please adjust the codes to coregister the input imaging file to */src/atlas/brain.nii.gz* and then continue.
 

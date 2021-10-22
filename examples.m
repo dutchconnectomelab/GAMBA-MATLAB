@@ -3,17 +3,18 @@ filepath = fileparts(mfilename('fullpath'));
 addpath(genpath(filepath));
 
 % Select an example to run
-exampleID = 5; % 1, 2, 3, 4, 5
+exampleID = 3; % 1, 2, 3, 4, 5
 
 
 %% Example 1
-% I have an imaging map (a nifti file) and a gene set. I want to test if 
-% the imaging pattern correlates to the expression pattern.'
+% Research question:
+% - I have an imaging map (a nifti file) and a gene set. I want to test if 
+%   the imaging pattern correlates to the expression pattern.'
 if exampleID == 1
     disp(strcat('Example 1. Examining association between Alzheimer', ...
         "'", 's VBM map and APOE, APP, PSEN2 expression patterns.'));
 
-    % 1.1 Co-register the imaging file to MNI152 space
+    % 1.1 Co-register the imaging file to MNI152
     input_img_file = fullfile(filepath, 'src', 'examples', ...
         'alzheimers_ALE.nii.gz'); % meta-analysis of alzheimer's VBM studies
     input_img_anat_file = fullfile(filepath, 'src', 'examples', ...
@@ -47,9 +48,10 @@ if exampleID == 1
 end
 
 %% Example 2
-% I have an imaging data matrix (region by feature), a gene expression data 
-% matrix (region by gene), and a gene set. I want to test if the imaging 
-% pattern correlates to the expression pattern.
+% Research question:
+% - I have an imaging data matrix (region by feature), a gene expression data 
+%   matrix (region by gene), and a GOI. I want to test if the imaging 
+%   pattern correlates to the expression pattern.
 if exampleID == 2
     disp(strcat('Example 2. Examining association between connectome ', ...
     'metrics and the expression pattern of supragranular-enriched genes.'));
@@ -77,8 +79,9 @@ if exampleID == 2
 end
 
 %% Example 3
-% I have a gene-set. I want to test in which brain regions the gene-set is 
-% over-expressed.
+% Research question:
+% - I have a GOI. I want to test in which brain regions the GOI is 
+%   over-expressed.
 
 if exampleID == 3
     disp(strcat('Example 3. Testiassociation between connectome ', ...
@@ -99,8 +102,9 @@ if exampleID == 3
 end
 
 %% Example 4
-% I have a gene expression matrix and a gene-set. I want to test in which 
-% brain regions the gene-set is over-expressed.
+% Research question:
+% - I have a gene expression matrix and a GOI. I want to test in which 
+%   brain regions the gene-set is over-expressed.
 
 if exampleID == 4
     disp(strcat('Example 4. Testiassociation between connectome ', ...
@@ -125,8 +129,9 @@ if exampleID == 4
 end
 
 %% Example 5
-% I have an imaging map (.nii file) and I want to look for the most
-% correlated genes
+% Research question:
+% - I have an imaging map (.nii file) and I want to look for the most
+%   correlated genes
 
 if exampleID == 5
     % 1.1 Co-register the imaging file to MNI152 space
@@ -150,12 +155,5 @@ if exampleID == 5
     res_Y = group_regions(output_img_file, 'DK114');
     
     % 1.3 Using the null-spin model to look for the most correlated genes    
-    res_nullspin = permutation_null_spin_correlated_genes(img_data);
+    res_nullspin = permutation_null_spin_correlated_genes(res_Y.data(1:57));
 end
-
-
-
-
-
-
-
