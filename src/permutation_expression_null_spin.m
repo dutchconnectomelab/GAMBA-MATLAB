@@ -34,6 +34,7 @@ if nargin == 1
     data_ge = load(fullfile(filepath, 'gene_expression.mat'));
     disp('## Loading default gene expression data in DK114 atlas ...');
     expressions = data_ge.mDataGEctx;
+    regionDescriptions = data_ge.regionDescriptionCtx;
     gene_symbols = data_ge.gene_symbols;
 elseif nargin == 2
     error('Please provide gene symbols of all genes included in the expression data.');
