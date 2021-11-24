@@ -54,12 +54,14 @@ if isempty(expressions)
     warning('"expressions" is empty. Loading default expression matrix.');
     data_ge = load(fullfile(filepath, 'gene_expression.mat'));
     expressions = data_ge.mDataGEctx;
+    regionDescriptions = data_ge.regionDescriptionCtx;
 end
 
 if isempty(gene_symbols)
     warning('"gene_symbols" is empty. Loading default expression matrix.');
     data_ge = load(fullfile(filepath, 'gene_expression.mat'));
     gene_symbols = data_ge.gene_symbols;
+    regionDescriptions = data_ge.regionDescriptionCtx;
 end
 
 [N, K] = size(expressions);
