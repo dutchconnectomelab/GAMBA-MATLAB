@@ -87,17 +87,17 @@ if exampleID == 3
     disp(strcat('Example 3. Testiassociation between connectome ', ...
     'metrics and the expression pattern of supragranular-enriched genes.'));
 
-    % 2.1 load example data
+    % 3.1 load example data
     load('src/examples/example_conn_5k_genes.mat', 'geneset');
     % gene set: 19 Human-supragranular genes
     
-    % 2.2.1 null-coexp model
+    % 3.2.1 null-coexp model
     res_nullcoexp = permutation_expression_null_coexp(geneset);
     
-    % 2.2.2 null-brain model
+    % 3.2.2 null-brain model
     res_nullbrain = permutation_expression_null_brain(geneset);
     
-    % 2.2.3 null-spin model
+    % 3.2.3 null-spin model
     res_nullspin = permutation_expression_null_spin(geneset);
 end
 
@@ -110,20 +110,20 @@ if exampleID == 4
     disp(strcat('Example 4. Testiassociation between connectome ', ...
     'metrics and the expression pattern of supragranular-enriched genes.'));
 
-    % 2.1 load example data
+    % 4.1 load example data
     load('src/examples/example_conn_5k_genes.mat', 'geneset', ...
         'gene_expression', 'gene_symbols');
     % gene set: 19 Human-supragranular genes
     
-    % 2.2.1 null-coexp model
+    % 4.2.1 null-coexp model
     res_nullcoexp = permutation_expression_null_coexp(geneset, ...
         gene_expression, gene_symbols);
     
-    % 2.2.2 null-brain model
+    % 4.2.2 null-brain model
     res_nullbrain = permutation_expression_null_brain(geneset, ...
         gene_expression, gene_symbols);
     
-    % 2.2.3 null-spin model
+    % 4.2.3 null-spin model
     res_nullspin = permutation_expression_null_spin(geneset, ...
         gene_expression, gene_symbols);
 end
@@ -134,7 +134,7 @@ end
 %   correlated genes
 
 if exampleID == 5
-    % 1.1 Co-register the imaging file to MNI152 space
+    % 5.1 Co-register the imaging file to MNI152 space
     input_img_file = fullfile(filepath, 'src', 'examples', ...
         'alzheimers_ALE.nii.gz'); % meta-analysis of alzheimer's VBM studies
     input_img_anat_file = fullfile(filepath, 'src', 'examples', ...
@@ -151,9 +151,9 @@ if exampleID == 5
     system(['flirt -in ', input_img_file, ' -ref ', ref_img_file, ...
         ' -applyxfm -init ', reg_file, ' -out ', output_img_file]);
 
-    % 1.2 Group the imaging map into brain regions (here regional mean)
+    % 5.2 Group the imaging map into brain regions (here regional mean)
     res_Y = group_regions(output_img_file, 'DK114');
     
-    % 1.3 Using the null-spin model to look for the most correlated genes    
+    % 5.3 Using the null-spin model to look for the most correlated genes    
     res_nullspin = permutation_null_spin_correlated_genes(res_Y.data(1:57));
 end
